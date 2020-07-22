@@ -15,13 +15,19 @@ const categoryRepository = new CategoryRepository()
 app.use(bodyParser.json())
 
 app.post(`/categories`, async (req, res) => {
- 	res.json(categoryRepository.post(req))
+	const result = await categoryRepository.post(req)
+	var category: ICategory = {
+		id: result.id,
+		color: result.color,
+		title: result.title
+	}
+ 	res.json(category)
 })
 
 app.get('/categories', async (req, res) => {
-	var result = categoryRepository.get(req)
+	const result = await categoryRepository.get(req)
 	let categories: ICategory[] = [];
-	(await result).forEach(function(data){
+	result.forEach(function(data){
 		var category: ICategory = {
 			id: data.id,
 			color: data.color,
