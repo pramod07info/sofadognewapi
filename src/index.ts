@@ -6,44 +6,30 @@ import { title } from 'process'
 
 import { IFeed } from './model/feed'
 import { ICategory } from './model/category'
+import { CategoryRepository } from './repositories/index'
 
 const prisma = new PrismaClient()
 const app = express()
+const categoryRepository = new CategoryRepository()
 
 app.use(bodyParser.json())
 
 app.post(`/categories`, async (req, res) => {
-  const result = await prisma.categories.create({
-    data: {
-      ...req.body,
-    },
-  })
- res.json(result)
+ 	res.json(categoryRepository.post(req))
 })
 
 app.get('/categories', async (req, res) => {
-  const result = await prisma.categories.findMany({
-    where:{
-      is_active:true
-    }, 
-    select:{
-      id:true,
-      color:true,
-      title:true
-    }
-  })
-
-  let categories: ICategory[] = [];
-  result.forEach(function(data){
-    var category: ICategory = {
-      id: data.id,
-      color: data.color,
-      title: data.title
-    }
-    categories.push(category);
-  });
-
-  res.json(categories)
+	var result = categoryRepository.get(req)
+	let categories: ICategory[] = [];
+	(await result).forEach(function(data){
+		var category: ICategory = {
+			id: data.id,
+			color: data.color,
+			title: data.title
+		}
+		categories.push(category);
+	});
+  	res.json(categories)
 })
 
 app.get('/refresh', async (req, res) => {
