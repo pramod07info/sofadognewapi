@@ -4,19 +4,11 @@ import express from 'express'
 import { get } from 'http'
 import { title } from 'process'
 
+import { IFeed } from './model/feed'
+import { ICategory } from './model/category'
+
 const prisma = new PrismaClient()
 const app = express()
-
-interface IFeed{
-  id: any,
-  enqueued: any,
-  ordinal: any,
-  url: any,
-  published: any,
-  categories: any,
-  credits: any,
-  title: any
-}
 
 app.use(bodyParser.json())
 
@@ -30,7 +22,7 @@ app.post(`/categories`, async (req, res) => {
 })
 
 app.get('/categories', async (req, res) => {
-  const posts = await prisma.categories.findMany({
+  const result = await prisma.categories.findMany({
     where:{
       is_active:true
     }, 
@@ -40,7 +32,18 @@ app.get('/categories', async (req, res) => {
       title:true
     }
   })
-  res.json(posts)
+
+  let categories: ICategory[] = [];
+  result.forEach(function(data){
+    var category: ICategory = {
+      id: data.id,
+      color: data.color,
+      title: data.title
+    }
+    categories.push(category);
+  });
+
+  res.json(categories)
 })
 
 app.get('/refresh', async (req, res) => {
@@ -65,14 +68,14 @@ app.get('/refresh', async (req, res) => {
    
   })
  
-  let response:IFeed[] = [];
+  let feeds:IFeed[] = [];
   
   posts.forEach(function(data){
     let cat= [];
     if(data.categories != null){
       cat.push(data.categories.id.toString());
     }
-    var result:IFeed = {
+    var feed:IFeed = {
       id: data.id,
       enqueued: data.enqueued,
       ordinal: data.ordinal,
@@ -82,10 +85,10 @@ app.get('/refresh', async (req, res) => {
       credits: data.credits,
       title: data.title
     }
-    response.push(result)
+    feeds.push(feed)
   });
 
-  res.json(response)
+  res.json(feeds)
 })
 
 const server = app.listen(3000, () =>
