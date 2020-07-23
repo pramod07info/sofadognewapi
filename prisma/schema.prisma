@@ -44,13 +44,13 @@ model feeds {
 
 model refresh_log {
   created_at  DateTime?
-  from        String?   @default("NULL::character varying")
+  from        String?   @default("NULL")
   height      Int?
   id          Int       @default(autoincrement()) @id
-  manufacture String?   @default("NULL")
-  model       String?   @default("NULL::character varying")
-  os          String?   @default("NULL::character varying")
+  manufacture String?
+  model       String?   @default("NULL")
+  os          String?   @default("NULL")
   updated_at  DateTime?
-  uuid        String?   @default("NULL::character varying")
+  uuid        String?   @default("NULL")
   width       Int?
 }
