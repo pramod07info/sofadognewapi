@@ -21,7 +21,7 @@ interface IFeed{
 app.use(bodyParser.json())
 
 app.post(`/categories`, async (req, res) => {
-  const result = await prisma.categories.create({
+  const result = await prisma.refresh_log.create({
     data: {
       ...req.body,
     },
@@ -38,12 +38,23 @@ app.get('/categories', async (req, res) => {
       id:true,
       color:true,
       title:true
+    },
+    orderBy:{
+      ordinal:'asc'
     }
   })
   res.json(posts)
 })
 
-app.get('/refresh', async (req, res) => {
+app.get('/feed/:uuid/:height/:os/refresh', async (req, res) => {
+
+  const result = await prisma.refresh_log.create({
+    data: {
+      uuid:req.params.uuid,
+      height:parseInt(req.params.height),
+      os:req.params.os,
+    },
+  })
   const posts = await prisma.feeds.findMany({
     where:{
       published:true
@@ -61,6 +72,9 @@ app.get('/refresh', async (req, res) => {
       },
       credits:true,
       title:true
+    },
+    orderBy:{
+      ordinal:'desc'
     }
    
   })
@@ -87,6 +101,68 @@ app.get('/refresh', async (req, res) => {
 
   res.json(response)
 })
+
+app.get('/feed/:uuid/:height/:os/refresh/:ordinal', async (req, res) => {
+
+  const result = await prisma.refresh_log.create({
+    data: {
+      uuid:req.params.uuid,
+      height:parseInt(req.params.height),
+      os:req.params.os,
+    },
+  })
+  const posts = await prisma.feeds.findMany({
+    where:{
+      published:true,
+      ordinal:{
+        gt: parseInt(req.params.ordinal)
+      },
+    
+    },
+    select:{
+      id:true,
+      enqueued:true,
+      ordinal:true,
+      url:true,
+      published:true,
+      categories:{
+        select:{
+          id:true
+        }
+      },
+      credits:true,
+      title:true
+    },
+    orderBy:{
+      ordinal:'desc'
+    }
+   
+  })
+ 
+  let response:IFeed[] = [];
+  
+  posts.forEach(function(data){
+    let cat= [];
+    if(data.categories != null){
+      cat.push(data.categories.id.toString());
+    }
+    var result:IFeed = {
+      id: data.id,
+      enqueued: data.enqueued,
+      ordinal: data.ordinal,
+      url: data.url,
+      published: data.published,
+      categories:cat,
+      credits: data.credits,
+      title: data.title
+    }
+    response.push(result)
+  });
+
+  res.json(response)
+})
+
+
 
 const server = app.listen(3000, () =>
   console.log(
