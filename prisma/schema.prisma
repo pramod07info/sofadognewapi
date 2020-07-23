@@ -8,49 +8,49 @@ datasource db {
 }
 
 model categories {
-  color      String?   @default("NULL")
-  created_at DateTime? @default(now())
-  id         Int       @default(autoincrement()) @id
+  color      String?   @default("NULL::character varying")
+  created_at DateTime?
+  id         Int       @id
   is_active  Boolean?
   ordinal    Int?
-  title      String?
-  updated_at DateTime? @default(now())
+  title      String?   @default("NULL")
+  updated_at DateTime?
   feeds      feeds[]
 }
 
 model events {
   context    String?
-  created_at DateTime? @default(now())
+  created_at DateTime?
   event      String?
-  id         Int       @default(autoincrement()) @id
-  os         String?
-  timestamp  DateTime? @default(now())
+  id         Int       @id
+  os         String?   @default("NULL")
+  timestamp  DateTime?
   uid        String?
-  updated_at DateTime? @default(now())
+  updated_at DateTime?
 }
 
 model feeds {
   category   Int?
   credits    String?
   enqueued   DateTime?
-  id         Int         @default(autoincrement()) @id
+  id         Int         @id
   ordinal    Int?
   published  Boolean?
   rejected   Boolean?
-  title      String?
+  title      String?     @default("NULL")
   url        String?
   categories categories? @relation(fields: [category], references: [id])
 }
 
 model refresh_log {
   created_at  DateTime?
-  from        String?   @default("NULL")
+  from        String?   @default("NULL::character varying")
   height      Int?
-  id          Int       @default(autoincrement()) @id
-  manufacture String?
-  model       String?   @default("NULL")
-  os          String?   @default("NULL")
+  id          Int       @id
+  manufacture String?   @default("NULL")
+  model       String?   @default("NULL::character varying")
+  os          String?   @default("NULL::character varying")
   updated_at  DateTime?
-  uuid        String?   @default("NULL")
+  uuid        String?   @default("NULL::character varying")
   width       Int?
 }
