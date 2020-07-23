@@ -1,5 +1,4 @@
-import { PrismaClient, categories } from '@prisma/client'
-import { ICategory } from '../model/category'
+import { PrismaClient } from '@prisma/client'
 
 const prisma = new PrismaClient()
 
