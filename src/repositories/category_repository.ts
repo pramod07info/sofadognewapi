@@ -18,7 +18,7 @@ export class CategoryRepository{
               is_active:true
             }, 
             select:{
-              id:true,
+              ordinal:true,
               color:true,
               title:true
             }

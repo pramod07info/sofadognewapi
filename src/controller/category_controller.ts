@@ -33,7 +33,7 @@ class CategoryController {
         let categories: ICategory[] = [];
         result.forEach(function(data){
             var category: ICategory = {
-                id: data.id,
+                id: data.ordinal,
                 color: data.color,
                 title: data.title
             }
