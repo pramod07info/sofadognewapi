@@ -1,0 +1,43 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = "postgresql://postgres:root@localhost:5432/sofadog?schema=public"
+}
+
+model categories {
+  color      String?   @default("NULL")
+  created_at DateTime? @default(now())
+  id         Int       @default(autoincrement()) @id
+  is_active  Boolean?
+  ordinal    Int?
+  title      String?
+  updated_at DateTime? @default(now())
+  feeds      feeds[]
+}
+
+model events {
+  context    String?
+  created_at DateTime? @default(now())
+  event      String?
+  id         Int       @default(autoincrement()) @id
+  os         String?
+  timestamp  DateTime? @default(now())
+  uid        String?
+  updated_at DateTime? @default(now())
+}
+
+model feeds {
+  category   Int?
+  credits    String?
+  enqueued   DateTime?
+  id         Int         @default(autoincrement()) @id
+  ordinal    Int?
+  published  Boolean?
+  rejected   Boolean?
+  title      String?
+  url        String?
+  categories categories? @relation(fields: [category], references: [id])
+}

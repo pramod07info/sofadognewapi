@@ -41,3 +41,16 @@ model feeds {
   url        String?
   categories categories? @relation(fields: [category], references: [id])
 }
+
+model refresh_log {
+  created_at  DateTime?
+  from        String?   @default("NULL")
+  height      Int?
+  id          Int       @default(autoincrement()) @id
+  manufacture String?
+  model       String?   @default("NULL")
+  os          String?   @default("NULL")
+  updated_at  DateTime?
+  uuid        String?   @default("NULL")
+  width       Int?
+}
