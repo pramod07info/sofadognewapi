@@ -21,7 +21,10 @@ export class FeedRepository{
                 },
                 credits:true,
                 title:true
-            }   
+            },
+            orderBy:{
+                ordinal:'desc'
+            } 
         })
         return result
     }
@@ -47,7 +50,10 @@ export class FeedRepository{
                 },
                 credits:true,
                 title:true
-            }   
+            },
+            orderBy:{
+                ordinal:'desc'
+            }  
         })
         return result
     }
