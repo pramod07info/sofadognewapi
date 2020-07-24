@@ -18,7 +18,13 @@ class FeedController {
     }
 
     getFeed = async (request: express.Request, response: express.Response) => {
-        const result = await this.feedRepository.get(request)
+        let result;
+        if(typeof request.params.ordinal != 'undefined')
+        {
+            result = await this.feedRepository.get_gt_ordinal(request)
+        }else{
+            result = await this.feedRepository.get(request)
+        }
         let feeds: IFeed[] = [];
         result.forEach(function (data) {
             let cat = [];
