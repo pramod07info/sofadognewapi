@@ -22,7 +22,7 @@ class CategoryController {
         const result = await this.categoryRepository.post(request)
         var category: ICategory = {
             id: result.id,
-            color: result.color,
+            colour: result.color,
             title: result.title
         }
         response.send(category)
@@ -34,7 +34,7 @@ class CategoryController {
         result.forEach(function(data){
             var category: ICategory = {
                 id: data.ordinal,
-                color: data.color,
+                colour: data.color,
                 title: data.title
             }
             categories.push(category);
