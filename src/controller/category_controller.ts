@@ -5,7 +5,7 @@ import { CategoryRepository } from '../repositories/index'
 
 class CategoryController {
     private categoryRepository = new CategoryRepository()
-    public path = '/categories';
+    public path = '/feed/data/categories';
     public router = express.Router();
     public app = express();
 
