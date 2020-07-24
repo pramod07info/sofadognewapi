@@ -46,7 +46,7 @@ model refresh_log {
   created_at  DateTime?
   from        String?   @default("NULL::character varying")
   height      Int?
-  id          Int       @id
+  id          Int       @default(autoincrement()) @id
   manufacture String?   @default("NULL")
   model       String?   @default("NULL::character varying")
   os          String?   @default("NULL::character varying")

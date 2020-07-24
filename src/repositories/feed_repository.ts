@@ -62,12 +62,6 @@ export class FeedRepository {
     }
 
     async save_refresh_log(req: any) {
-        var refresh_log: IRefreshLog = {
-            uuid: req.params.uuid,
-            height: req.params.height,
-            os: req.params.os
-        }
-
         const result = await prisma.refresh_log.create({
             data: {
                 uuid: req.params.uuid,
