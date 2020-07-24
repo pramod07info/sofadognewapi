@@ -5,7 +5,7 @@ import { FeedRepository } from '../repositories/index'
 
 class FeedController {
     private feedRepository = new FeedRepository()
-    public path = '/refresh';
+    public path = '/feed/:uuid/:height/:os/refresh/:ordinal?';
     public router = express.Router();
     public app = express();
 
