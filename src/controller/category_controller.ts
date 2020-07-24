@@ -21,7 +21,7 @@ class CategoryController {
     createCategory = async (request: express.Request, response: express.Response) => {
         const result = await this.categoryRepository.post(request)
         var category: ICategory = {
-            id: result.id,
+            id: String(result.ordinal),
             colour: result.color,
             title: result.title
         }
@@ -33,7 +33,7 @@ class CategoryController {
         let categories: ICategory[] = [];
         result.forEach(function(data){
             var category: ICategory = {
-                id: data.ordinal,
+                id: String(data.ordinal),
                 colour: data.color,
                 title: data.title
             }
