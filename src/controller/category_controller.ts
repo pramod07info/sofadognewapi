@@ -29,7 +29,7 @@ class CategoryController {
     }
 
     getCategory = async (request: express.Request, response: express.Response) => {
-        const result = await this.categoryRepository.get(request)
+        const result = await this.categoryRepository.get()
         let categories: ICategory[] = [];
         result.forEach(function(data){
             var category: ICategory = {

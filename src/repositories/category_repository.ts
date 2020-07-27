@@ -12,7 +12,7 @@ export class CategoryRepository {
 		return result
 	}
 
-	async get(req: any) {
+	async get() {
 		const result = await prisma.categories.findMany({
 			where: {
 				is_active: true
