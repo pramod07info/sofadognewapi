@@ -1,11 +1,11 @@
-import { PrismaClient } from '@prisma/client'
+import { PrismaClient, refresh_log } from '@prisma/client'
 import { IRefreshLog } from '../model'
 
 const prisma = new PrismaClient()
 
 export class FeedRepository {
-    async get(req: any) {
-        this.save_refresh_log(req);
+    async get(refrshLog: IRefreshLog) {
+        this.save_refresh_log(refrshLog);
         const result = await prisma.feeds.findMany({
             where: {
                 published: true
@@ -31,13 +31,13 @@ export class FeedRepository {
         return result
     }
 
-    async get_gt_ordinal(req: any) {
-        this.save_refresh_log(req);
+    async get_gt_ordinal(refreshLog: IRefreshLog) {
+        this.save_refresh_log(refreshLog);
         const result = await prisma.feeds.findMany({
             where: {
                 published: true,
                 ordinal: {
-                    gt: parseInt(req.params.ordinal)
+                    gt: refreshLog.ordinal
                 },
             },
             select: {
@@ -61,12 +61,12 @@ export class FeedRepository {
         return result
     }
 
-    async save_refresh_log(req: any) {
+    async save_refresh_log(refreshLog: IRefreshLog) {
         const result = await prisma.refresh_log.create({
             data: {
-                uuid: req.params.uuid,
-                height: Number(req.params.height),
-                os: req.params.os
+                uuid: refreshLog.uuid,
+                height: Number(refreshLog.height),
+                os: refreshLog.os
             },
         })
     }

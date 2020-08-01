@@ -6,4 +6,5 @@ export interface IRefreshLog{
     manufacture?: string;
     model?: string;
     width?: number;
+    ordinal?:number;
 }

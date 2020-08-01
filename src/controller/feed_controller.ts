@@ -2,6 +2,7 @@ import express from 'express'
 
 import { IFeed } from '../model/index'
 import { FeedRepository } from '../repositories/index'
+import {IRefreshLog} from '../model'
 
 class FeedController {
     private feedRepository = new FeedRepository()
@@ -21,9 +22,21 @@ class FeedController {
         let result;
         if(typeof request.params.ordinal != 'undefined')
         {
-            result = await this.feedRepository.get_gt_ordinal(request)
+            let iRreshLog: IRefreshLog = {
+                uuid: request.params.uuid,
+                os: request.params.os,
+                height: parseInt(request.params.height),
+                ordinal: parseInt(request.params.ordinal)
+
+            };
+            result = await this.feedRepository.get_gt_ordinal(iRreshLog)
         }else{
-            result = await this.feedRepository.get(request)
+            let iRreshLog: IRefreshLog = {
+                uuid: request.params.uuid,
+                os: request.params.os,
+                height: parseInt(request.params.height)
+            };
+            result = await this.feedRepository.get(iRreshLog)
         }
         let feeds: IFeed[] = [];
         result.forEach(function (data) {
