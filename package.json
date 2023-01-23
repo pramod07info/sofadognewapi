@@ -28,7 +28,7 @@
     "mocha": "^8.0.1",
     "nyc": "^15.1.0",
     "should": "^7.0.2",
-    "supertest": "^1.0.1",
+    "supertest": "^6.3.3",
     "ts-node": "8.10.2",
     "typescript": "3.9.6"
   },
